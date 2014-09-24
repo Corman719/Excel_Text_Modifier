@@ -1,0 +1,13 @@
+﻿<Window x:Class="Excel_Text_Modifier.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Excel Modifier" Height="224" Width="384">
+    <Grid Margin="0,0,2,0">
+        <TextBox x:Name="FileNameTextBox" HorizontalAlignment="Left" Height="23" Margin="32,58,0,0" Text="" VerticalAlignment="Top" Width="300"/>
+        <Button x:Name="Run" Content="Start" HorizontalAlignment="Left" Margin="81,142,0,0" VerticalAlignment="Top" Width="75" Click="Run_Click"/>
+        <Button x:Name="CloseProg" Content="Exit" HorizontalAlignment="Left" Margin="213,142,0,0" VerticalAlignment="Top" Width="75" Click="CloseProg_Click"/>
+        <Button x:Name="FileOpen" Content="Browse" HorizontalAlignment="Left" Margin="257,86,0,0" VerticalAlignment="Top" Width="75" Click="FileOpen_Click"/>
+        <Label Content="Select an Excel file from 2007 or later only." HorizontalAlignment="Left" Margin="32,32,0,0" VerticalAlignment="Top" Width="300" Height="26"/>
+
+    </Grid>
+</Window>
