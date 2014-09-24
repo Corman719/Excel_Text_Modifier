@@ -49,18 +49,10 @@ namespace Excel_Text_Modifier
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
-                FileNameTextBox.Text = filePaths[0];
-                //foreach (string fileLoc in filePaths)
-                //{
-                //    // Code to read the contents of the text file
-                //    if (File.Exists(fileLoc))
-                //    {
-                //        using (TextReader tr = new StreamReader(fileLoc))
-                //        {
-                //            MessageBox.Show(tr.ReadToEnd());
-                //        }
-                //    }
-                //}
+                foreach (string fileLoc in filePaths)
+                {
+                    
+                }
             }
         }
 
@@ -123,6 +115,11 @@ namespace Excel_Text_Modifier
                 cell = string.Format("LT{0}",cell);
             }
             return cell;
+        }
+
+        private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
