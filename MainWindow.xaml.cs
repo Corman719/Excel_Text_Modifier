@@ -22,17 +22,24 @@ namespace Excel_Text_Modifier
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public List<FileInfo> filesList;
+
+        // constructor
         public MainWindow()
         {
             this.AllowDrop = true;
-            this.DragEnter += MainWindow_DragEnter;
-            this.Drop += MainWindow_Drop;
+            this.DragEnter += FileList_DragEnter;
+            this.Drop += FileList_Drop;
             InitializeComponent();
+
+            filesList = new List<FileInfo>();
+            FileList.ItemsSource = filesList;
         }
 
         #region DragDropControl
 
-        private void MainWindow_DragEnter(object sender, DragEventArgs e)
+        private void FileList_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -44,15 +51,16 @@ namespace Excel_Text_Modifier
             }
         }
 
-        private void MainWindow_Drop(object sender, DragEventArgs e)
+        private void FileList_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
                 foreach (string fileLoc in filePaths)
                 {
-                    
-                }
+                    filesList.Add(new FileInfo(fileLoc));
+                }              
+                FileList.Items.Refresh();
             }
         }
 
@@ -63,12 +71,18 @@ namespace Excel_Text_Modifier
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.DefaultExt = ".xlsx";
             openDialog.Filter = "Microsoft Excel Worksheet (.xlsx)|*.xlsx";
+            openDialog.Multiselect = true;
             Nullable<bool> result = openDialog.ShowDialog();
             if (result == true)
             {
-                string filename = openDialog.FileName;
-                FileNameTextBox.Text = filename;
+                string[] files = openDialog.FileNames;
+                foreach (string file in files)
+                {
+                    filesList.Add(new FileInfo(file));
+                }
+                FileList.Items.Refresh();
             }
+            
         }
 
         private void CloseProg_Click(object sender, RoutedEventArgs e)
@@ -78,29 +92,28 @@ namespace Excel_Text_Modifier
 
         private void Run_Click(object sender, RoutedEventArgs e)
         {
-            FileInfo File = new FileInfo(FileNameTextBox.Text);
-            using (ExcelPackage package = new ExcelPackage(File))
-            {   
-                int colume = 3;
-                int row = 4;
-                object curCell = "";
+            //using (ExcelPackage package = new ExcelPackage(File))
+            //{   
+            //    int colume = 3;
+            //    int row = 4;
+            //    object curCell = "";
                 
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+            //    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
 
-                // Goals
-                // Read each Cell in Colume C
-                // Compare first 3 char from string to list
-                // If in list add "DT" or "LT"
-                while (true)
-                {
-                    curCell = worksheet.Cells[row, colume].Value;                    
-                    if (curCell == null)
-                        break;
-                    worksheet.Cells[row, colume].Value = addPrefix(curCell.ToString());                    
-                    row++;
-                }
-                package.Save(); // Saves modifications
-            }
+            //    // Goals
+            //    // Read each Cell in Colume C
+            //    // Compare first 3 char from string to list
+            //    // If in list add "DT" or "LT"
+            //    while (true)
+            //    {
+            //        curCell = worksheet.Cells[row, colume].Value;                    
+            //        if (curCell == null)
+            //            break;
+            //        worksheet.Cells[row, colume].Value = addPrefix(curCell.ToString());                    
+            //        row++;
+            //    }
+            //    package.Save(); // Saves modifications
+            //}
             MessageBox.Show("Done.");
         }
 
